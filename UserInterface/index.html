@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>User Interface</title>
+        <script src="js/vendor/jquery-2.1.1.min.js"></script>
+
+        <style>
+            body {
+                background-color: lavender;
+            }
+
+            #wrapper {
+                width: 1000px;
+                height: 1500px;
+                margin : 20px auto;
+                background-color: bisque;
+                border: 2px solid burlywood;
+            }
+
+            #header {
+                width: 1000px;
+                height: 100px;
+                background-color: antiquewhite;
+            }
+        </style>
+
+    </head>
+    <body>
+
+    <script>
+        $(document).ready(function() {
+            var canvas = document.getElementById("canvas");
+            var context = canvas.getContext("2d");
+
+            function drawGrid(context, canvas) {
+                context.strokeStyle = "blue";
+
+                for (var x = 0.5; x < canvas.width; x += 10) {
+                    context.moveTo(x, 0);
+                    context.lineTo(x, canvas.height);
+                }
+
+                for (var y = 0.5; y < canvas.height; y += 10) {
+                    context.moveTo(0, y);
+                    context.lineTo(canvas.width, y);
+                }
+
+                context.stroke();
+                console.log("the grid has been drawn");
+            }
+            drawGrid(context, canvas);
+        });
+    </script>
+
+    <div id="wrapper">
+        <div id="header"></div>
+        <div id="content">
+            <canvas id="canvas" width="600" height="400" style="border: 2px dotted blueviolet"></canvas>
+        </div>
+        <div id="footer"></div>
+    </div>
+
+    </body>
+</html>
