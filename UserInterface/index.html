@@ -22,6 +22,13 @@
             height: 100px;
             background-color: antiquewhite;
         }
+
+        #canvas {
+            background-color: black;
+            border: 1px solid blue;
+
+        }
+
     </style>
 
 </head>
@@ -29,24 +36,19 @@
 
 <script>
     $(document).ready(function () {
-
-
-
         function fillWithRandomData(array) {
-            for (var i = 0; i < 100; i++) {
-                var number = Math.floor((Math.random() * 200) + 1);
-                //console.log(number);
-                array.push(number);
+            var points = [0, 0, 0, 0, 40, 35, 35, 35, 35, 0, 0, 0, 0, 0, 0, -40, -35, -35, -35, - 35, 0, 0];
+            for (var i = 0; i < 1000; i++) {
+                for (var j = 0; j < points.length; j++) {
+                    array.push(points[j]);
+                }
             }
         }
 
         var canvas = document.getElementById("canvas");
         var context = canvas.getContext("2d");
 
-        var scale = 10;
-
-        var plusButton = document.getElementById("plus");
-        var minusButton = document.getElementById("minus");
+        var scale = 50;
         var lineButton = document.getElementById("line");
 
         lineButton.addEventListener("click", function () {
@@ -55,39 +57,29 @@
             drawLine(context, canvas, data);
         });
 
-        plusButton.addEventListener("click", function () {
-            drawGrid(context, canvas, scale += 5)
-        });
-
-        minusButton.addEventListener("click", function () {
-            if (!(scale <= 5)) {
-                drawGrid(context, canvas, scale -= 5)
-            }
-        });
-
-
 
         function drawLine(context, canvas, data) {
-
-            console.log("line should be drawn");
+            console.log("the line has been drawn");
             context.beginPath();
-
+            context.strokeStyle = "#7AFF1A";
+            context.lineWidth = "2";
+            var center  = canvas.height / 2;
             var previousData = 0;
             var previousX = 0;
             var x = 0;
             for (var i = 0; i < data.length; i++) {
-                context.moveTo(previousX, 150 + previousData);
-                context.lineTo(x, 150 + data[i]);
+                context.moveTo(previousX, center + previousData);
+                context.lineTo(x, center +  data[i] * -1);
                 previousX = x;
-                x += 20;
-                previousData = data[i];
+                x += 5;
+                previousData = data[i] * -1;
             }
             context.stroke();
         }
 
         function drawGrid(context, canvas, scale) {
-            canvas.width = canvas.width;
-            context.strokeStyle = "blue";
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.strokeStyle = "gray";
 
             context.beginPath();
 
@@ -102,9 +94,20 @@
             }
 
             context.stroke();
+
+            context.beginPath();
+
+            context.strokeStyle = "yellow";
+            context.lineWidth = "1";
+            context.moveTo(0 ,canvas.height / 2);
+            context.lineTo(canvas.width, canvas.height / 2);
+
+            context.moveTo(canvas.width / 2, 0);
+            context.lineTo(canvas.width / 2, canvas.height);
+
+            context.stroke();
             console.log("the grid has been drawn");
         }
-
         drawGrid(context, canvas, scale);
     });
 </script>
@@ -112,9 +115,7 @@
 <div id="wrapper">
     <div id="header"></div>
     <div id="content">
-        <canvas id="canvas" width="600" height="400"></canvas>
-        <button id="plus">+</button>
-        <button id="minus">-</button>
+        <canvas id="canvas" height="500" width="500"></canvas>
         <button id="line">Draw a line</button>
     </div>
     <div id="footer"></div>
